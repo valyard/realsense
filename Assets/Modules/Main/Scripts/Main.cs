@@ -42,18 +42,22 @@ public class Main : MonoBehaviour
                 case MainState.Idle:
                     MainMenu.SetActive(true);
                     GameOver.SetActive(false);
+                    Time.timeScale = 0;
                     break;
                 case MainState.Paused:
                     MainMenu.SetActive(true);
                     GameOver.SetActive(false);
+                    Time.timeScale = 0;
                     break;
                 case MainState.Playing:
                     MainMenu.SetActive(false);
                     GameOver.SetActive(false);
+                    Time.timeScale = 1;
                     break;
                 case MainState.GameOver:
                     MainMenu.SetActive(false);
                     GameOver.SetActive(true);
+                    Time.timeScale = 0;
                     break;
             }
         }
@@ -61,16 +65,22 @@ public class Main : MonoBehaviour
     #endregion
 
     #region Main Methods
-    // Use this for initialization
-	void Start () {
+
+    public void Restart()
+    {
+        Application.LoadLevel(0);
+    }
+
+	void Start () 
+    {
         init();
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update () 
+    {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Application.LoadLevel(0);
+            Restart();
         }
         checkLosingConditions();
     }
@@ -117,7 +127,6 @@ public class Main : MonoBehaviour
     {
         Debug.Log("Game should start");
 
-        Time.timeScale = 1;
         if (State == MainState.Idle || State == MainState.Paused)
         {
             State = MainState.Playing;
@@ -128,7 +137,6 @@ public class Main : MonoBehaviour
     {
         Debug.Log("Game should pause");
 
-        Time.timeScale = 0;
         if (State == MainState.Playing)
         {
             State = MainState.Paused;
