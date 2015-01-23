@@ -59,6 +59,7 @@ public class Main : MonoBehaviour
             PlayerTracker.OnTrackingStarted += onTrackingStarted;
             PlayerTracker.OnTrackingLost += onTrackingLost;
             PlayerTracker.OnBlink += onBlink;
+            Time.timeScale = 0;
 
             //Debug.Log("Device: " + PXCMSenseManager.CreateInstance().QueryCaptureManager().QueryDevice());
 

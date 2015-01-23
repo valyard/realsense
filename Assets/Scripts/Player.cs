@@ -3,12 +3,14 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-
+    #region Variables
     public float JumpForce = 1;
     public float RunForce = 1;
     public float MaxSpeed = 1;
+    #endregion
 
-	void Start () {
+    #region Main Methods
+    void Start () {
 	
 	}
 	
@@ -21,6 +23,10 @@ public class Player : MonoBehaviour
         {
             rigidbody.AddForce(Vector3.right * RunForce, ForceMode.VelocityChange);
         }
-        
-	}
+
+    }
+    #endregion
+
+    #region Utility Methods
+    #endregion
 }
