@@ -10,6 +10,7 @@ public class PlayerTracker : MonoBehaviour
 
 
     bool isTrackingFace = false;
+    float _lastTrackingUpdateTime = 0;
 
     #region Variables
     #endregion
@@ -22,19 +23,22 @@ public class PlayerTracker : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-
+        if (Time.time - _lastTrackingUpdateTime > 1)
+        {
+            stopTracking();
+        }
     }
     #endregion
 
     #region Realsense Callbacks
     void OnFaceDetected()
     {
-        startTracking();
+   //     startTracking();
     }
 
     void OnFaceLost()
     {
-       stopTracking();
+    //   stopTracking();
     }
 
     void OnEyeClosed()
@@ -45,12 +49,22 @@ public class PlayerTracker : MonoBehaviour
             blink();
         }
     }
+
+    void OnEyeDetect()
+    {
+        _lastTrackingUpdateTime = Time.time;
+        if (!isTrackingFace)
+        {
+            startTracking();
+        }
+    }
     #endregion
 
     #region Private Methods
     void startTracking()
     {
         isTrackingFace = true;
+        
         Debug.Log("Face detected");
         if (OnTrackingStarted != null)
         {
