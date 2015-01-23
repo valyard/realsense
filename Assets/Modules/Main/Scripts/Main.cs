@@ -9,7 +9,8 @@ public class Main : MonoBehaviour
         Init,
         Idle,
         Playing,
-        Paused
+        Paused,
+        GameOver
     };
     #endregion
 
@@ -20,6 +21,8 @@ public class Main : MonoBehaviour
 
     public World World;
     public Player Player;
+    public float LeftBorder = -14;
+    public float BottomBorder = -10;
 
     public TextMesh Label;
 
@@ -46,7 +49,11 @@ public class Main : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Application.LoadLevel(0);
+        }
+        checkLosingConditions();
     }
     #endregion
 
@@ -90,6 +97,10 @@ public class Main : MonoBehaviour
         Debug.Log("Game should start");
         Label.renderer.enabled = false;
         Time.timeScale = 1;
+        if (State == MainState.Idle || State == MainState.Paused)
+        {
+            State = MainState.Playing;
+        }
     }
 
     void pause()
@@ -97,12 +108,38 @@ public class Main : MonoBehaviour
         Debug.Log("Game should pause");
         Label.renderer.enabled = true;
         Time.timeScale = 0;
+        if (State == MainState.Playing)
+        {
+            State = MainState.Paused;
+        }
     }
 
     void blink()
     {
-        Debug.Log("Game should update level");
-        World.Generate(Player.transform.position.x);
+        if (State == MainState.Playing)
+        {
+            Debug.Log("Game should update level");
+            World.Generate(Player.transform.position.x);
+        }
+    }
+
+    void gameOver()
+    {
+        if (State == MainState.Playing)
+        {
+            State = MainState.GameOver;
+            Label.text = "Game over";
+            Label.renderer.enabled = true;
+        }
+    }
+
+    void checkLosingConditions()
+    {
+        Debug.Log("Player: " + Player.transform.position);
+        if (Player.transform.position.y < BottomBorder || Player.transform.position.x < LeftBorder)
+        {
+            gameOver();
+        }
     }
     #endregion
 }
