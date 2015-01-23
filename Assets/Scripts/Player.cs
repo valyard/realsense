@@ -39,7 +39,11 @@ public class Player : MonoBehaviour
 	    {
             jump();
 	    }
-        rigidbody.AddForce(-Vector3.right * CenterAttractorForce * Mathf.Sign(transform.position.x), ForceMode.VelocityChange);
+        if (Mathf.Abs(transform.position.x) > 1)
+        {
+            rigidbody.AddForce(-Vector3.right * CenterAttractorForce * Mathf.Sign(transform.position.x), ForceMode.VelocityChange);
+        }
+        
        // rigidbody.velocity = new Vector3(0.5f * rigidbody.velocity.x, rigidbody.velocity.y, rigidbody.velocity.z);
     }
 
