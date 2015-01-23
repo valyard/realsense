@@ -55,7 +55,7 @@ public class Player : MonoBehaviour
     {
         foreach (ContactPoint contact in collision.contacts)
         {
-            Debug.Log(string.Format("{0} {1}", contact.point, contact.normal));
+//            Debug.Log(string.Format("{0} {1}", contact.point, contact.normal));
             if (Mathf.Approximately(contact.normal.y, 1.0f))
             {
                 contactGround();
