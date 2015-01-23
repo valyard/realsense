@@ -32,7 +32,7 @@ public class World : MonoBehaviour
 	    for (var i = 0; i < blocks.Count; i++)
 	    {
 	        var block = blocks[i];
-            block.rigidbody.MovePosition(block.position - Vector3.left * Speed * Time.deltaTime);
+            block.rigidbody.MovePosition(block.position + Vector3.left * Speed * Time.deltaTime);
 	    }
     }
 
