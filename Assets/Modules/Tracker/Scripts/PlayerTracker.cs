@@ -52,6 +52,7 @@ public class PlayerTracker : MonoBehaviour
 
     void OnEyeDetect()
     {
+        _lastTrackingUpdateTime = Time.time;
         if (!isTrackingFace)
         {
             startTracking();
@@ -63,7 +64,7 @@ public class PlayerTracker : MonoBehaviour
     void startTracking()
     {
         isTrackingFace = true;
-        _lastTrackingUpdateTime = Time.time;
+        
         Debug.Log("Face detected");
         if (OnTrackingStarted != null)
         {
