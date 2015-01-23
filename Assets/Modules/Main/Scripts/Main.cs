@@ -102,7 +102,7 @@ public class Main : MonoBehaviour
     void blink()
     {
         Debug.Log("Game should update level");
-        World.Generate(null);
+        World.Generate(Player.transform.position.x);
     }
     #endregion
 }
