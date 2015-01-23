@@ -22,6 +22,11 @@ public class Player : MonoBehaviour
 
     #region Variables
     public float JumpForce = 1;
+
+    public float CenterAttractorForce = 0.1f;
+
+    public float JumpingDelay = 0.5f;
+    private float jumpingStartTime;
     #endregion
 
     #region Main Methods
@@ -34,13 +39,19 @@ public class Player : MonoBehaviour
 	    {
             jump();
 	    }
+        if (Mathf.Abs(transform.position.x) > 1)
+        {
+            rigidbody.AddForce(-Vector3.right * CenterAttractorForce * Mathf.Sign(transform.position.x), ForceMode.VelocityChange);
+        }
+        
+       // rigidbody.velocity = new Vector3(0.5f * rigidbody.velocity.x, rigidbody.velocity.y, rigidbody.velocity.z);
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionStay(Collision collision)
     {
         foreach (ContactPoint contact in collision.contacts)
         {
-//            Debug.Log(string.Format("{0} {1}", contact.point, contact.normal));
+            Debug.Log(string.Format("{0} {1}", contact.point, contact.normal));
             if (Mathf.Approximately(contact.normal.y, 1.0f))
             {
                 contactGround();
@@ -54,14 +65,16 @@ public class Player : MonoBehaviour
     {
         if (State == PlayerState.OnGround)
         {
+            Debug.Log("Jump: " + (Time.time - (jumpingStartTime + JumpingDelay)));
             rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.VelocityChange);
             State = PlayerState.Jumping;
+            jumpingStartTime = Time.time;
         }
     }
 
     void contactGround()
     {
-        if (State == PlayerState.Jumping)
+        if (State == PlayerState.Jumping && Time.time > jumpingStartTime + JumpingDelay)
         {
             State = PlayerState.OnGround;
         }
