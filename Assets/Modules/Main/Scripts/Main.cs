@@ -46,7 +46,7 @@ public class Main : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log("Device: " + PXCMSenseManager.CreateInstance().QueryCaptureManager().QueryDevice());
+        
     }
     #endregion
 
