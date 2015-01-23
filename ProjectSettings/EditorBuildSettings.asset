@@ -7,5 +7,5 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 0
     path: Assets/Scenes/Face Tracking Demo Scene.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Face Tracking Demo Scene - no jaw.unity

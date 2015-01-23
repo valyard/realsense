@@ -573,7 +573,7 @@ namespace RSUnityToolkit
             // Every frame update all the data
             if (Initialized && numberOfEnabledModules > 0)
             {
-				_sts = SenseManager.AcquireFrame(true, 100);
+				_sts = SenseManager.AcquireFrame(true, 50);
                 if (_sts == pxcmStatus.PXCM_STATUS_NO_ERROR)
                 {
                     if (_senseOptions.Find(i => i.ID == SenseOption.SenseOptionID.VideoColorStream).Enabled)
