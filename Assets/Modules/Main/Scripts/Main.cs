@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Main : MonoBehaviour
@@ -14,8 +14,6 @@ public class Main : MonoBehaviour
     };
     #endregion
 
-
-
     #region Variables
     public PlayerTracker PlayerTracker;
 
@@ -24,7 +22,8 @@ public class Main : MonoBehaviour
     public float LeftBorder = -14;
     public float BottomBorder = -10;
 
-    public TextMesh Label;
+    public GameObject MainMenu;
+    public GameObject GameOver;
 
     MainState _state;
     public MainState State
@@ -36,7 +35,27 @@ public class Main : MonoBehaviour
         private set
         {
             Debug.Log(string.Format("Transition from {0} to {1}", _state, value));
-            _state = value; 
+            _state = value;
+
+            switch (_state)
+            {
+                case MainState.Idle:
+                    MainMenu.SetActive(true);
+                    GameOver.SetActive(false);
+                    break;
+                case MainState.Paused:
+                    MainMenu.SetActive(true);
+                    GameOver.SetActive(false);
+                    break;
+                case MainState.Playing:
+                    MainMenu.SetActive(false);
+                    GameOver.SetActive(false);
+                    break;
+                case MainState.GameOver:
+                    MainMenu.SetActive(false);
+                    GameOver.SetActive(true);
+                    break;
+            }
         }
     }
     #endregion
@@ -68,6 +87,8 @@ public class Main : MonoBehaviour
             PlayerTracker.OnBlink += onBlink;
             Time.timeScale = 0;
 
+            World.Generate();
+
             //Debug.Log("Device: " + PXCMSenseManager.CreateInstance().QueryCaptureManager().QueryDevice());
 
            // PXCMSenseManager.CreateInstance().QueryCaptureManager().QueryDevice().SetColorAutoExposure(false);
@@ -95,7 +116,7 @@ public class Main : MonoBehaviour
     void start()
     {
         Debug.Log("Game should start");
-        Label.renderer.enabled = false;
+
         Time.timeScale = 1;
         if (State == MainState.Idle || State == MainState.Paused)
         {
@@ -106,7 +127,7 @@ public class Main : MonoBehaviour
     void pause()
     {
         Debug.Log("Game should pause");
-        Label.renderer.enabled = true;
+
         Time.timeScale = 0;
         if (State == MainState.Playing)
         {
@@ -128,14 +149,11 @@ public class Main : MonoBehaviour
         if (State == MainState.Playing)
         {
             State = MainState.GameOver;
-            Label.text = "Game over";
-            Label.renderer.enabled = true;
         }
     }
 
     void checkLosingConditions()
     {
-        Debug.Log("Player: " + Player.transform.position);
         if (Player.transform.position.y < BottomBorder || Player.transform.position.x < LeftBorder)
         {
             gameOver();

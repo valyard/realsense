@@ -25,7 +25,7 @@ public class World : MonoBehaviour
 	void Start () 
     {
         blocks = new Transform[Width];
-        Generate();
+//        Generate();
 	}
 	
 	void FixedUpdate ()
