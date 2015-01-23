@@ -130,6 +130,7 @@ public class Main : MonoBehaviour
             State = MainState.GameOver;
             Label.text = "Game over";
             Label.renderer.enabled = true;
+            Time.timeScale = 0;
         }
     }
 
