@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Main : MonoBehaviour
 {
@@ -24,8 +25,11 @@ public class Main : MonoBehaviour
 
     public GameObject MainMenu;
     public GameObject GameOver;
+    public Text PointsText;
 
-    MainState _state;
+    private MainState _state;
+    private int points = 0;
+
     public MainState State
     {
         get
@@ -43,6 +47,7 @@ public class Main : MonoBehaviour
                     MainMenu.SetActive(true);
                     GameOver.SetActive(false);
                     Time.timeScale = 0;
+                    points = 0;
                     break;
                 case MainState.Paused:
                     MainMenu.SetActive(true);
@@ -83,6 +88,9 @@ public class Main : MonoBehaviour
             Restart();
         }
         checkLosingConditions();
+
+	    points = (int)Time.time;
+	    PointsText.text = "Points: " + points;
     }
     #endregion
 
