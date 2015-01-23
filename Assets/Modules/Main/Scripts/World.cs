@@ -56,7 +56,7 @@ public class World : MonoBehaviour
             var xPos = i * BlockSize;
             if (block != null)
             {
-                if (block.position.x > fixedPosition - BlockSize*2 && block.position.x < fixedPosition + BlockSize*2) continue;
+                if (block.position.x >= fixedPosition - BlockSize*.5 && block.position.x <= fixedPosition + BlockSize*.5) continue;
                 xPos = block.localPosition.x;
                 Destroy(block.gameObject);
             }
@@ -66,7 +66,21 @@ public class World : MonoBehaviour
 
     private void AddBlock(int index, float xPos)
     {
-        var go = Instantiate(Prefabs[Random.Range(0, Prefabs.Count)].Prefab) as GameObject;
+        var probabilities = new float[Prefabs.Count];
+        var sum = 0f;
+        for (var i = 0; i < Prefabs.Count; i++)
+        {
+            probabilities[i] = sum;
+            sum += Prefabs[i].Probability;
+        }
+        var rnd = Random.value;
+        var prefabIndex = Prefabs.Count - 1;
+        for (; prefabIndex >= 0; prefabIndex--)
+        {
+            if (rnd > probabilities[prefabIndex] / sum) break;
+        }
+
+        var go = Instantiate(Prefabs[prefabIndex].Prefab) as GameObject;
         var t = go.transform;
         t.name = "Block";
         t.parent = transform;
