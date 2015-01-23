@@ -18,6 +18,11 @@ public class Main : MonoBehaviour
     #region Variables
     public PlayerTracker PlayerTracker;
 
+    public World World;
+    public Player Player;
+
+    public TextMesh Label;
+
     MainState _state;
     public MainState State
     {
@@ -41,7 +46,7 @@ public class Main : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-
+        Debug.Log("Device: " + PXCMSenseManager.CreateInstance().QueryCaptureManager().QueryDevice());
     }
     #endregion
 
@@ -54,16 +59,22 @@ public class Main : MonoBehaviour
             PlayerTracker.OnTrackingStarted += onTrackingStarted;
             PlayerTracker.OnTrackingLost += onTrackingLost;
             PlayerTracker.OnBlink += onBlink;
+
+            //Debug.Log("Device: " + PXCMSenseManager.CreateInstance().QueryCaptureManager().QueryDevice());
+
+           // PXCMSenseManager.CreateInstance().QueryCaptureManager().QueryDevice().SetColorAutoExposure(false);
         }
     }
 
     void onTrackingStarted(PlayerTracker pt)
     {
         start();
+
     }
     void onTrackingLost(PlayerTracker pt)
     {
         pause();
+
     }
     void onBlink(PlayerTracker pt)
     {
@@ -76,16 +87,21 @@ public class Main : MonoBehaviour
     void start()
     {
         Debug.Log("Game should start");
+        Label.renderer.enabled = false;
+        Time.timeScale = 1;
     }
 
     void pause()
     {
         Debug.Log("Game should pause");
+        Label.renderer.enabled = true;
+        Time.timeScale = 0;
     }
 
     void blink()
     {
         Debug.Log("Game should update level");
+        World.Generate(null);
     }
     #endregion
 }
