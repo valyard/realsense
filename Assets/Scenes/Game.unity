@@ -700,8 +700,8 @@ MonoBehaviour:
   - Prefab: {fileID: 100000, guid: f46d1656e805d154687a0c8ac9486266, type: 2}
     Probability: 1
   - Prefab: {fileID: 100000, guid: 7e4082f1d40b6a442996e99e818e902b, type: 2}
-    Probability: .100000001
-  Speed: 3
+    Probability: .300000012
+  Speed: 5
   Width: 20
   BlockSize: 2
   HeightMin: 0
