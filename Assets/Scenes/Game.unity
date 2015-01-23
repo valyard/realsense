@@ -643,12 +643,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 261091d706dcaa141b93b06524cb8019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlockPrefabs:
-  - {fileID: 400000, guid: f46d1656e805d154687a0c8ac9486266, type: 2}
-  BlocksCount: 100
-  BlockSpacing: 2
-  HeightMin: -1
-  HeightMax: 3
+  Prefabs:
+  - Prefab: {fileID: 100000, guid: f46d1656e805d154687a0c8ac9486266, type: 2}
+    Probability: 1
+  Speed: 1
+  Width: 22
+  BlockSize: 1
+  HeightMin: 0
+  HeightMax: 1
 --- !u!1 &1213867886
 GameObject:
   m_ObjectHideFlags: 0

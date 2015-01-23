@@ -1,13 +1,16 @@
-﻿using UnityEngine;
+using System;
+using UnityEngine;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 public class World : MonoBehaviour
 {
     #region Variables
-    public Transform[] BlockPrefabs;
+    public List<BlockPrefab> Prefabs;
 
-    public int BlocksCount = 1000;
-    public float BlockSpacing = 1.0f;
+    public float Speed = 1;
+    public int Width = 22;
+    public float BlockSize = 1.0f;
 
     public float HeightMin = -1;
     public float HeightMax = 3;
@@ -17,15 +20,20 @@ public class World : MonoBehaviour
 
     #region Main Methods
     #endregion
-    // Use this for initialization
-	void Start () {
+
+	void Start () 
+    {
         blocks = new List<Transform>();
         Generate(null);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-
+	void FixedUpdate () 
+    {
+	    for (var i = 0; i < blocks.Count; i++)
+	    {
+	        var block = blocks[i];
+            block.rigidbody.MovePosition(block.position - Vector3.left * Speed * Time.deltaTime);
+	    }
     }
 
     public void Generate(Transform fixedBlock)
@@ -34,7 +42,7 @@ public class World : MonoBehaviour
         {
             if (b != fixedBlock)
             {
-                GameObject.Destroy(b.gameObject);
+                Destroy(b.gameObject);
             }
         }
         blocks.Clear();
@@ -42,16 +50,24 @@ public class World : MonoBehaviour
         {
             blocks.Add(fixedBlock);
         }
-        for (int i = 0; i < BlocksCount; i++)
+        for (int i = 0; i < Width; i++)
         {
-            Transform newBlock = Instantiate(BlockPrefabs[Random.Range(0, BlockPrefabs.Length)]) as Transform;
-            newBlock.name = "Block_" + i;
-            newBlock.parent = transform;
-            newBlock.localPosition = new Vector3(i * BlockSpacing, Random.Range(HeightMin, HeightMax), 0);
-            blocks.Add(newBlock);
+            var go = Instantiate(Prefabs[Random.Range(0, Prefabs.Count)].Prefab) as GameObject;
+            var t = go.transform;
+            t.name = "Block_" + i;
+            t.parent = transform;
+            t.localPosition = new Vector3(i * BlockSize, Random.Range(HeightMin, HeightMax), 0);
+            blocks.Add(t);
         }
     }
 
     #region Utility Methods
     #endregion
+}
+
+[Serializable]
+public struct BlockPrefab
+{
+    public GameObject Prefab;
+    public float Probability;
 }
