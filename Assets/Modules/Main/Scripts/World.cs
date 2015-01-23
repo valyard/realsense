@@ -47,7 +47,7 @@ public class World : MonoBehaviour
             Transform newBlock = Instantiate(BlockPrefabs[Random.Range(0, BlockPrefabs.Length)]) as Transform;
             newBlock.name = "Block_" + i;
             newBlock.parent = transform;
-            newBlock.position = new Vector3(i * BlockSpacing, Random.Range(HeightMin, HeightMax), 0);
+            newBlock.localPosition = new Vector3(i * BlockSpacing, Random.Range(HeightMin, HeightMax), 0);
             blocks.Add(newBlock);
         }
     }
